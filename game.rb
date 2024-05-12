@@ -1,5 +1,6 @@
 
 
+
 def janken
     puts "じゃんけん"
     puts "0(グー)1(チョキ)2(パー)3(戦わない)"
@@ -24,21 +25,67 @@ def janken
     puts "あなた:#{hands[my_hand]}\n相手:#{hands[your_hand]}"
 
 
-    if my_hands == your_hands
-        return true
-    elsif  (my_hands == 0 && your_hands == 1) ||(my_hands == 1 && your_hands == 2) || (my_hands == 2 && your_hands == 0)
-        janken_pattern = "勝ち"
-        return false
+    if my_hand == your_hand
+        @janken_pattern = "あいこ"
+    elsif  (my_hand == 0 && your_hand == 1) ||(my_hand == 1 && your_hand == 2) || (my_hand == 2 && your_hand == 0)
+        @janken_pattern = "勝ち"
     else
-        janken_pattern = "負け"
-        return false
+        @janken_pattern = "負け"
     end
+
+
+
+    case @janken_pattern
+    when "勝ち"
+        attimuitehoi_win
+    when "負け"
+        attimuitehoi_lose
+    when "あいこ"
+        janken_draw
+    end
+
 end
 
-next_game = true
+def janken_draw
+    puts "じゃんけん"
+    puts "0(グー)1(チョキ)2(パー)3(戦わない)"
 
-while next_game
-  next_game = janken
+    my_hand = gets.to_i
+
+    your_hand = rand(3)
+
+    if my_hand > 3
+        puts "0~3の数字を入力してください"
+        return
+    elsif my_hand == 3
+        puts "また対戦しましょう"
+        return
+    end
+
+    puts "ホイ!"
+    puts "----------"
+
+    hands = {0 => "グー", 1 => "チョキ", 2 => "パー" }
+
+    puts "あなた:#{hands[my_hand]}\n相手:#{hands[your_hand]}"
+
+
+    if my_hand == your_hand
+        @janken_pattern = "あいこ"
+    elsif  (my_hand == 0 && your_hand == 1) ||(my_hand == 1 && your_hand == 2) || (my_hand == 2 && your_hand == 0)
+        @janken_pattern = "勝ち"
+    else
+        @janken_pattern = "負け"
+    end
+
+    case @janken_pattern
+    when "勝ち"
+        attimuitehoi_win
+    when "負け"
+        attimuitehoi_lose
+    when "あいこ"
+        janken_draw
+    end
 end
 
 
@@ -49,9 +96,9 @@ def attimuitehoi_win
 
     my_direction = gets.to_i
 
-    you_direction = rand(4)
+    your_direction = rand(4)
 
-    if my_hands >= 4
+    if my_direction >= 4
         puts "0~3の数字を入力してください"
         return
     end
@@ -60,16 +107,13 @@ def attimuitehoi_win
 
     puts "あなた:#{directions[my_direction]}\n相手:#{directions[your_direction]}"
 
-    if my_direction == you_direction
+    if my_direction == your_direction
         puts "あなたの勝ちです"
+        return
     else
-        return true
+        janken
     end
 
-end
-
-while next_game
-    next_game = janken
 end
 
 def attimuitehoi_lose
@@ -78,9 +122,9 @@ def attimuitehoi_lose
 
     my_direction = gets.to_i
 
-    you_direction = rand(4)
+    your_direction = rand(4)
 
-    if my_hands >= 4
+    if my_direction >= 4
         puts "0~3の数字を入力してください"
         return
     end
@@ -89,21 +133,18 @@ def attimuitehoi_lose
 
     puts "あなた:#{directions[my_direction]}\n相手:#{directions[your_direction]}"
 
-    if my_direction == you_direction
+    if my_direction == your_direction
         puts "あなたの負けです"
+        return
     else
-        return true
+        janken
+    end
 
 end
 
-while next_game
-    next_game = janken
-end
 
 
-case janken_pattern
-when "勝ち"
-    attimuitehoi_win
-when "負け"
-    attimuitehoi_lose
-end
+janken
+
+
+
